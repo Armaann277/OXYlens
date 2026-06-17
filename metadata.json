@@ -1,0 +1,6 @@
+{
+  "name": "OxyLens AI Operations",
+  "description": "Centralized workspace for global AI model observability, token optimization, permissions control, risk assessment, and usage spend analytics.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

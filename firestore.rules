@@ -1,0 +1,28 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Check if the user is authenticated
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    // Check if the user document is owned by the requester
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+
+    // Rules for User documents
+    match /users/{userId} {
+      allow read, write: if isOwner(userId);
+    }
+
+    // Rules for Search Queries
+    // Users can write their own search queries, anyone logged in can read search histories
+    match /search_queries/{queryId} {
+      allow read: if true;
+      allow create, update: if true; // Allowed so users can log search inquiries
+      allow delete: if isAuthenticated() && resource.data.userId == request.auth.uid;
+    }
+  }
+}

@@ -1,0 +1,40 @@
+{
+  "entities": {
+    "User": {
+      "title": "User Profile",
+      "description": "Information about a registered user synchronized from Firebase Authentication",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "description": "Unique identifier of the user" },
+        "email": { "type": "string", "description": "Email address" },
+        "displayName": { "type": "string", "description": "Display name" },
+        "photoURL": { "type": "string", "description": "Avatar image URL" },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Timestamp when the user account was initialized" }
+      },
+      "required": ["uid", "email"]
+    },
+    "SearchQuery": {
+      "title": "Search Query",
+      "description": "Log of a query handled by Gemini 3.5 Flash Search Grounding",
+      "type": "object",
+      "properties": {
+        "query": { "type": "string", "description": "The search keywords" },
+        "response": { "type": "string", "description": "Markdown output containing grounded answers" },
+        "sources": { "type": "array", "description": "Grounded search result sources used for grounding" },
+        "userId": { "type": "string", "description": "The user ID who executed the search, or 'anonymous'" },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Search timestamp" }
+      },
+      "required": ["query", "response", "userId", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "Collection of user profiles"
+    },
+    "/search_queries/{queryId}": {
+      "schema": "SearchQuery",
+      "description": "Collection of real-time search queries and grounded responses"
+    }
+  }
+}
